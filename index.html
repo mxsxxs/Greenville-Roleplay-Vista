@@ -166,7 +166,7 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to Greenville Roleplay Vista</h1>
+        <h1 id="header-text">Welcome to Greenville Roleplay Vista</h1>
         <nav>
             <ul>
                 <li><a href="#about">About</a></li>
@@ -242,5 +242,61 @@
     <footer>
         <p>&copy; 2024 Greenville Roleplay Vista</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const headerText = document.getElementById('header-text');
+            const greetings = [
+                "Good Morning!",
+                "Good Afternoon!",
+                "Good Evening!",
+                "Welcome Back!"
+            ];
+
+            let index = 0;
+
+            function typeWriter(text, callback) {
+                let i = 0;
+                const speed = 100;
+
+                function type() {
+                    if (i < text.length) {
+                        headerText.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        setTimeout(callback, 2000);
+                    }
+                }
+
+                headerText.textContent = '';
+                type();
+            }
+
+            function eraseWriter(callback) {
+                const speed = 50;
+                function erase() {
+                    if (headerText.textContent.length > 0) {
+                        headerText.textContent = headerText.textContent.substring(0, headerText.textContent.length - 1);
+                        setTimeout(erase, speed);
+                    } else {
+                        setTimeout(callback, 1000);
+                    }
+                }
+                erase();
+            }
+
+            function cycleText() {
+                typeWriter(greetings[index], () => {
+                    eraseWriter(() => {
+                        index = (index + 1) % greetings.length;
+                        typeWriter("Welcome to Greenville Roleplay Vista", cycleText);
+                    });
+                });
+            }
+
+            typeWriter("Welcome to Greenville Roleplay Vista", cycleText);
+        });
+    </script>
 </body>
 </html>
