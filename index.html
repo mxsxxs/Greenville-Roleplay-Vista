@@ -253,7 +253,18 @@
                 "Welcome Back!"
             ];
 
-            let index = 0;
+            function getGreeting() {
+                const now = new Date();
+                const hours = now.getHours();
+
+                if (hours < 12) {
+                    return greetings[0];  // "Good Morning!"
+                } else if (hours < 18) {
+                    return greetings[1];  // "Good Afternoon!"
+                } else {
+                    return greetings[2];  // "Good Evening!"
+                }
+            }
 
             function typeWriter(text, callback) {
                 let i = 0;
@@ -265,11 +276,11 @@
                         i++;
                         setTimeout(type, speed);
                     } else {
-                        setTimeout(callback, 2000);
+                        setTimeout(callback, 2000);  // Wait for 2 seconds after typing the text
                     }
                 }
 
-                headerText.textContent = '';
+                headerText.textContent = '';  // Clear the text before typing
                 type();
             }
 
@@ -280,17 +291,19 @@
                         headerText.textContent = headerText.textContent.substring(0, headerText.textContent.length - 1);
                         setTimeout(erase, speed);
                     } else {
-                        setTimeout(callback, 0);
+                        setTimeout(callback, 0);  // Wait for 1 second after erasing the text
                     }
                 }
                 erase();
             }
 
             function cycleText() {
-                typeWriter(greetings[index], () => {
+                const currentGreeting = getGreeting();
+                typeWriter(currentGreeting, () => {
                     eraseWriter(() => {
-                        index = (index + 1) % greetings.length;
-                        typeWriter("Welcome to Greenville Roleplay Vista", cycleText);
+                        typeWriter("Welcome to Greenville Roleplay Vista", () => {
+                            setTimeout(cycleText, 0);  // Wait for 1 minute before updating the greeting again
+                        });
                     });
                 });
             }
