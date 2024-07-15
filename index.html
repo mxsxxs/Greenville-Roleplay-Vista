@@ -133,6 +133,7 @@
             position: fixed;
             width: 100%;
             bottom: 0;
+            cursor: pointer;
         }
 
         h1, h2 {
@@ -240,12 +241,13 @@
         <a href="https://discord.gg/gvvista" target="_blank" class="join-button">Join Now</a>
     </section>
     <footer>
-        <p>&copy; 2024 Greenville Roleplay Vista</p>
+        <p id="footer-text">&copy; 2024 Greenville Roleplay Vista</p>
     </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const headerText = document.getElementById('header-text');
+            const footerText = document.getElementById('footer-text');
             const greetings = [
                 "Good Morning!",
                 "Good Afternoon!",
@@ -309,6 +311,10 @@
             }
 
             typeWriter("Welcome to Greenville Roleplay Vista", cycleText);
+
+            footerText.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
     </script>
 </body>
